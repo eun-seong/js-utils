@@ -1,7 +1,11 @@
-class MaxHeap {
+class Heap {
   heap = [undefined];
+  compare = (a, b) => a > b;
 
-  constructor(initialData) {
+  constructor(initialData, compare) {
+    if (compare) {
+      this.compare = compare;
+    }
     if (initialData) {
       for (let i = 0, size = initialData.length; i < size; i++) {
         this.add(initialData[i]);
@@ -13,7 +17,7 @@ class MaxHeap {
     let cur = this.heap.length;
     this.heap.push(elem);
 
-    while (cur !== 1 && elem > this.heap[Math.floor(cur / 2)]) {
+    while (cur !== 1 && this.compare(elem, this.heap[Math.floor(cur / 2)])) {
       this.heap[cur] = this.heap[Math.floor(cur / 2)];
       cur = Math.floor(cur / 2);
     }
@@ -27,11 +31,11 @@ class MaxHeap {
       child = 2;
 
     while (child < this.heap.length) {
-      if (this.heap[child] < this.heap[child + 1]) {
+      if (this.compare(this.heap[child + 1], this.heap[child])) {
         child++;
       }
 
-      if (this.heap[child] < tmp) {
+      if (this.compare(tmp, this.heap[child])) {
         break;
       }
 
@@ -45,7 +49,7 @@ class MaxHeap {
   }
 }
 
-const heap = new MaxHeap([6, 2, 4, 7, 8, 3, 1]);
+const heap = new Heap([6, 2, 4, 7, 8, 3, 1], (a, b) => a < b);
 console.log(heap);
 console.log(heap.pop());
 console.log(heap.pop());
