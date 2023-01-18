@@ -58,6 +58,58 @@ class LinkedList {
     return null;
   }
 
+  sort() {
+    const getMiddle = (head) => {
+      let slow = head,
+        fast = head;
+
+      while (fast.next !== null && fast.next.next !== null) {
+        slow = slow.next;
+        fast = fast.next.next;
+      }
+
+      return slow;
+    };
+
+    const sortedMerge = (a, b) => {
+      let result = null;
+
+      if (a === null) {
+        return b;
+      }
+      if (b === null) {
+        return a;
+      }
+
+      if (a.value < b.value) {
+        result = a;
+        result.next = sortedMerge(a.next, b);
+      } else {
+        result = b;
+        result.next = sortedMerge(b.next, a);
+      }
+
+      return result;
+    };
+
+    const doSort = (head) => {
+      if (head === null || head.next === null) {
+        return head;
+      }
+
+      const middle = getMiddle(head);
+      const middleNext = middle.next;
+      middle.next = null;
+
+      const left = doSort(head);
+      const right = doSort(middleNext);
+
+      return sortedMerge(left, right);
+    };
+
+    this.head = doSort(this.head);
+  }
+
   print() {
     let cur = this.head;
     const result = [];
@@ -81,5 +133,5 @@ linkedList.append(3);
 linkedList.append(5);
 linkedList.print();
 
-linkedList.remove(linkedList.find(40));
+linkedList.sort();
 linkedList.print();
