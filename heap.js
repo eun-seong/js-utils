@@ -1,6 +1,6 @@
 class Heap {
   heap = [undefined];
-  compare = (a, b) => a > b;
+  compare = (a, b) => a > b; // 디폴트는 MaxHeap
 
   constructor(initialData, compare) {
     if (compare) {
@@ -43,18 +43,29 @@ class Heap {
       parent = child;
       child *= 2;
     }
-    this.heap[parent] = tmp;
+
+    if (this.heap.length !== 1) {
+      this.heap[parent] = tmp;
+    }
 
     return root;
   }
+
+  print() {
+    console.log(this.heap.slice(1));
+  }
+
+  get length() {
+    return this.heap.length - 1;
+  }
 }
 
-const heap = new Heap([6, 2, 4, 7, 8, 3, 1], (a, b) => a < b);
-console.log(heap);
-console.log(heap.pop());
-console.log(heap.pop());
-console.log(heap.pop());
-console.log(heap.pop());
-console.log(heap.pop());
-console.log(heap.pop());
-console.log(heap.pop());
+const minHeap = new Heap([6, 2, 4, 7, 8, 3, 1], (a, b) => a < b);
+minHeap.print();
+console.log(minHeap.pop());
+console.log(minHeap.pop());
+console.log(minHeap.pop());
+console.log(minHeap.pop());
+console.log(minHeap.pop());
+console.log(minHeap.pop());
+console.log(minHeap.pop());
